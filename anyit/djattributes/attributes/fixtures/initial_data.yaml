@@ -1,0 +1,49 @@
+- model: attributes.AttributeType
+  pk = 1
+  fields:
+    name: int
+    description: default int type
+    internal_type: int
+
+- model: attributes.AttributeType
+  pk = 2
+  fields:
+    name: float
+    description: default float type
+    internal_type: float
+
+- model: attributes.AttributeType
+  pk = 3
+  fields:
+    name: string
+    description: default string type
+    internal_type: string
+
+- model: attributes.AttributeType
+  pk = 4
+  fields:
+    name: class
+    description: default class type
+    internal_type: int
+
+- model: attributes.AttributeType
+  pk = 5
+  fields:
+    name: generic
+    description: default generic type
+    internal_type: content_type
+
+- model: attributes.AttributeType
+  pk = 6
+  fields:
+    name: list
+    description: default type for non trivial nested lists.
+    internal_type: content_type
+
+- model: attributes.AttributeType
+  pk = 7
+  fields:
+    name: dict
+    description: default type for non trivial nested dicts.
+    internal_type: content_type
+

@@ -1,0 +1,138 @@
+Metadata-Version: 1.0
+Name: anyit.djattributes
+Version: 0.3.1
+Summary: Attributes and a persistend dict type for django models in a JQuery inspired syntax.
+Home-page: UNKNOWN
+Author: Jan Hoehn
+Author-email: jan@anyit.de
+License: BSD
+Description: ==============
+        attributes ...
+        ==============
+        ... is a *django app* which aims to provide *arbitrary attributes* for any model without touching it. The *flexibility won* is paid with the *speed lost*, which will become obvious in large scaled applications with dense data.
+        
+        Installation
+        ============
+        - Just copy the attributes folder to your current django project and include 'attributes' in your settings.
+        - Or install it using *sudo easy_install anyit.djattributes* and include 'anyit.djattributes.attributes'.
+        
+        Usage
+        =====
+        A javascript / JQuery like notation is implemented and provided by a simple interface class called *attr*. No capital letter like in usual classnames trying to make it feel like JQuery.
+        
+        Mind the gap
+        ------------
+        
+        I am a bit concerned about this being *not compliant to django philosophy*. Make sure you do not use this for large scale non sparse data stuff. I was just bothered with a tree structure containing arbitrary, path dependent attributes. This is why I did it. If I could have avoided this I had my models more nailed down :)
+        
+        Type interfaces
+        ---------------
+        ::
+        
+          # Creates a type. Look at the __doc__ for further info on types and 
+          # how they are represented. By now the internal_types int, float, 
+          # string, text, unicode, class (any pickleable object) and contenttype, 
+          # using a django gereric key, are supported.
+          attr.create_type(name, description , type) 
+        
+          # Careful! The cascade will destroy any values of the given type.
+          attr.delete_type(name) 
+        
+        Carrier interfaces
+        ------------------
+        ::
+        
+          # returns all attribute objects
+          attr()               
+        
+          # returns a list of attributes for the given owner.
+          attr(owner)               
+        
+          # returns the owners attribute with a given name or None.
+          attr(owner, name)         
+        
+          # ... set its value or raise if the type is not koscher.
+          attr(owner, name, value)  
+        
+          # create_attributetype chooses between creating an attributetype 
+          # with the given name, type determined by the given value and the 
+          # description set to the given name if a description is not 
+          # explicitely provided. create_attribute will associate a given 
+          # attribute with a carrier which is not yet attached with an 
+          # attribute type like given or raise a NameError. klass chooses 
+          # to enforce the attribute being attached to a model, even if an 
+          # instance is given. as_attribute will return the attribute, not
+          # it's value.
+          #
+          # special cases:
+          #   o is a list: batch processing for multiple objects
+          #   n is a dict: batch processing setting multiple attributes
+          #   n is a list: batch processing getting multiple attributes
+          #   n (items) contain dots (.): namespace like retreival for subkeys
+          #   o and n are lists, or n a dict: a nested dict will be returned 
+          #
+          # naming conventions for attribute keys
+          #   try using unicode
+          #   do not use the .
+        
+          attr(
+              owner=None,
+              name=None,
+              value=None, 
+              create_attributetype=True, 
+              create_attribute=True, 
+              klass=False,
+              description=None, 
+              as_attribute=False
+          ) 
+        
+        
+        Attribute interfaces
+        --------------------
+        ::
+        
+          # returns the owner of a given attribute
+          attr.find(attribute) 
+        
+          # returns a list of attributes for the attribute type of the given name
+          attr.find(name) 
+        
+          # returns a list of attributes for the attribute type of the given name matching the value
+          attr.find(name, value) 
+        
+        Destructive interfaces
+        ----------------------
+        ::
+        
+          # deletes all attributes
+          attr.delete() 
+          
+          # deletes all attributes having the given type.
+          attr.delete(n=name) 
+        
+          # deletes all attributes being attached to the given object or class.
+          attr.delete(o=object) 
+        
+          # deletes the attribute named n attached to o, the given object or class.
+          attr.delete(o=object, n=name) 
+        
+        Tests
+        =====
+        To get started you might also want to run the ./manage.py test attributes command and have a look at the second half of the *tests.py* file.
+        
+        Credits
+        =======
+        The *PickledObjectField* and their tests (found in the first half of tests.py) taken from  http://djangosnippets.org/snippets/1694/ and slightly modified so the __in lookup would work, too. Thanks for the snippet. Later I realized, this one might have worked, too: https://github.com/shrubberysoft/django-picklefield/blob/master/src/picklefield/fields.py.
+        
+        Have fun and feel free to contact me if you are having trouble, suggestions, ...
+        
+        
+Keywords: django attributes persistent dict generic
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet :: WWW/HTTP
